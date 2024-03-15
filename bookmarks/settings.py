@@ -14,6 +14,11 @@ SECRET_KEY = 'django-insecure-w$@rxo9tc1hzc7n#=yn-0r-foiue!uug2j7c%k)ub)c)nbpt3t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    import mimetypes
+    mimetypes.add_type('application/javascript', '.js', True)
+    mimetypes.add_type('text/css', '.css', True)
+
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -30,9 +35,11 @@ INSTALLED_APPS = [
     'django_extensions',
     'easy_thumbnails',
     'actions.apps.ActionsConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -136,3 +143,7 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: reverse_lazy('user_detail',
                                         args=[u.username])
 }
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
